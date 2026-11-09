@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dailies</title>
+<style>
+  :root {
+    --icon: 64px;            /* change this number to resize every icon */
+    --bg: #f6f2f8;
+    --card: #ffffff;
+    --ink: #2b2233;
+    --muted: #6d6277;
+    --line: #ddd2e6;
+    --accent: #7a3f9d;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1b1520;
+      --card: #261e2d;
+      --ink: #efe8f4;
+      --muted: #a698b3;
+      --line: #3a2f44;
+      --accent: #c79ae0;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem 4rem;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.5 Georgia, "Times New Roman", serif;
+  }
+  main { max-width: 44rem; margin: 0 auto; }
+  h1 { font-size: 1.9rem; margin: 0 0 1.5rem; }
+  section {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1rem 1.25rem 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  h2 { font-size: 1.15rem; margin: 0 0 1rem; }
+  h2 a { color: var(--accent); text-decoration: none; }
+  h2 a:hover, h2 a:focus-visible { text-decoration: underline; }
+  .dailies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .dailies a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: calc(var(--icon) + 1.5rem);
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    line-height: 1.25;
+    text-align: center;
+    border-radius: 4px;
+    padding: 0.25rem;
+  }
+  .dailies a:hover, .dailies a:focus-visible {
+    color: var(--ink);
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .dailies img {
+    width: var(--icon);
+    height: var(--icon);
+    object-fit: contain;
+    image-rendering: pixelated;   /* keeps pixel art crisp when enlarged */
+    margin-bottom: 0.3rem;
+  }
+  .dailies img.blank {
+    border: 1px dashed var(--line);
+    border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Dailies</h1>
+
+  <section>
+    <h2><a href="https://succubuns.com" target="_blank" rel="noopener">Succubuns</a></h2>
+    <ul class="dailies">
+      <li><a href="https://succubuns.com/info/wonderland-casino" target="_blank" rel="noopener" title="Casino">
+        <img src="https://succubuns.com/images/data/currencies/1-icon.png" alt="">Casino</a></li>
+      <li><a href="https://succubuns.com/info/idol-worship" target="_blank" rel="noopener" title="Church of Sulfur">
+        <img src="https://succubuns.com/images/data/currencies/2-icon.png" alt="">Church of Sulfur</a></li>
+      <li><a href="https://succubuns.com/errands" target="_blank" rel="noopener" title="Errands">
+        <img src="https://file.garden/ZT2StWKGxCOellbN/decor/carrot.png" alt="">Errands</a></li>
+      <li><a href="https://succubuns.com/shops/donation-shop" target="_blank" rel="noopener" title="Pillow Pile">
+        <img src="https://succubuns.com/files/shibani-icon.png" alt="">Pillow Pile</a></li>
+      <li><a href="https://succubuns.com/shops/44" target="_blank" rel="noopener" title="Fallen Festival">
+        <img src="https://succubuns.com/images/data/buttons/yhtGMfifzr79-image.png" alt="">Fallen Festival</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><a href="https://baobears.com" target="_blank" rel="noopener">Baobears</a></h2>
+    <ul class="dailies">
+      <li><a href="https://baobears.com/characters" target="_blank" rel="noopener" title="Characters">
+        <img class="blank" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">Characters</a></li>
+      <li><a href="https://baobears.com/dailies/1" target="_blank" rel="noopener" title="Beans">
+        <img src="https://baobears.com/images/data/dailies/1-image.png" alt="">Beans</a></li>
+      <li><a href="https://baobears.com/dailies/2" target="_blank" rel="noopener" title="Dumplings">
+        <img src="https://baobears.com/images/data/dailies/2-image.png" alt="">Dumplings</a></li>
+      <li><a href="https://baobears.com/dailies/7" target="_blank" rel="noopener" title="Fall Forage">
+        <img src="https://baobears.com/images/data/dailies/7-image.png" alt="">Fall Forage</a></li>
+      <li><a href="https://baobears.com/dailies/6" target="_blank" rel="noopener" title="BaoQuest">
+        <img src="https://baobears.com/images/data/dailies/6-image.png" alt="">BaoQuest</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><a href="https://mothcats.com/" target="_blank" rel="noopener">Mothcats</a></h2>
+  </section>
+
+  <section>
+    <h2><a href="https://www.cupidcats.online/" target="_blank" rel="noopener">CupidCats</a></h2>
+  </section>
+
+  <!-- To add another ArtRPG, copy the whole <section> above and swap in its links. -->
+</main>
+</body>
+</html>
