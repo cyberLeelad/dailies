@@ -4,143 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dailies</title>
-<style>
-  :root {
-    --icon: 64px;            /* change this number to resize every icon */
-    --bg: #f6f2f8;
-    --card: #ffffff;
-    --ink: #2b2233;
-    --muted: #6d6277;
-    --line: #ddd2e6;
-    --accent: #7a3f9d;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1b1520;
-      --card: #261e2d;
-      --ink: #efe8f4;
-      --muted: #a698b3;
-      --line: #3a2f44;
-      --accent: #c79ae0;
-    }
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    padding: 2rem 1rem 4rem;
-    background: var(--bg);
-    color: var(--ink);
-    font: 16px/1.5 Georgia, "Times New Roman", serif;
-  }
-  main { max-width: 44rem; margin: 0 auto; }
-  h1 { font-size: 1.9rem; margin: 0 0 1.5rem; }
-  section {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 1rem 1.25rem 1.25rem;
-    margin-bottom: 1.25rem;
-  }
-  h2 { font-size: 1.15rem; margin: 0 0 1rem; color: var(--accent); }
-  .dailies {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem 1.25rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  .dailies a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: calc(var(--icon) + 1.5rem);
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.8rem;
-    line-height: 1.25;
-    text-align: center;
-    border-radius: 4px;
-    padding: 0.25rem;
-  }
-  .dailies a:hover, .dailies a:focus-visible {
-    color: var(--ink);
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
-  .dailies img {
-    width: var(--icon);
-    height: var(--icon);
-    object-fit: contain;
-    image-rendering: pixelated;   /* keeps pixel art crisp when enlarged */
-    margin-bottom: 0.3rem;
-  }
-  .dailies img.blank {
-    border: 1px dashed var(--line);
-    border-radius: 4px;
-  }
-  [hidden] { display: none !important; }
-  .top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 0 1.5rem;
-  }
-  .top h1 { margin: 0; }
-  .gear {
-    background: none;
-    border: none;
-    padding: 0.25rem 0.5rem;
-    font-size: 1.6rem;
-    line-height: 1;
-    color: var(--muted);
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  .gear:hover, .gear:focus-visible, .gear[aria-expanded="true"] { color: var(--ink); }
-  .gear:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .settings {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 1rem 1.25rem 1.25rem;
-    margin-bottom: 1.25rem;
-  }
-  .settings-row {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-top: 0.75rem;
-  }
-  .settings input::placeholder { color: var(--muted); opacity: 0.8; }
-  .settings-row > label {
-    flex: 0 0 6.5rem;
-  }
-  .settings input {
-    flex: 1 1 auto;
-    min-width: 0;
-    font: inherit;
-    padding: 0.35rem 0.5rem;
-    background: transparent;
-    color: var(--ink);
-    border: 1px solid var(--line);
-    border-radius: 4px;
-  }
-  .settings button.remove, .settings button.add {
-    font: inherit;
-    background: none;
-    border: 1px solid var(--line);
-    color: var(--muted);
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  .settings button.remove { flex: 0 0 auto; padding: 0.2rem 0.6rem; font-size: 1.1rem; line-height: 1; }
-  .settings button.add { margin-top: 0.75rem; padding: 0.3rem 0.7rem; }
-  .settings button:hover, .settings button:focus-visible { color: var(--ink); }
-  .settings-row { flex-wrap: wrap; }
-  .settings-row input { flex: 1 1 8rem; }
-  .settings input[aria-invalid="true"] { border-color: #c0392b; }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <main>
@@ -154,25 +18,23 @@
   <section>
     <h2>Succubuns</h2>
     <ul class="dailies">
-      <li><a href="https://succubuns.com/shops/44" title="Fallen Festival">
-        <img src="https://succubuns.com/images/data/buttons/yhtGMfifzr79-image.png" alt="">Fallen Festival</a></li>
-      <li><a href="https://succubuns.com/errands" title="Errands">
-        <img src="https://file.garden/ZT2StWKGxCOellbN/decor/carrot.png" alt="">Errands</a></li>
-      <li data-succ-slot hidden></li>
       <li><a href="https://succubuns.com/info/wonderland-casino" title="Casino">
         <img src="https://succubuns.com/images/data/currencies/1-icon.png" alt="">Casino</a></li>
       <li><a href="https://succubuns.com/info/idol-worship" title="Church of Sulfur">
         <img src="https://succubuns.com/images/data/currencies/2-icon.png" alt="">Church of Sulfur</a></li>
       <li><a href="https://succubuns.com/shops/donation-shop" title="Pillow Pile">
         <img src="https://succubuns.com/files/shibani-icon.png" alt="">Pillow Pile</a></li>
+      <li><a href="https://succubuns.com/errands" title="Errands">
+        <img src="https://file.garden/ZT2StWKGxCOellbN/decor/carrot.png" alt="">Errands</a></li>
+      <li data-succ-slot hidden></li>
+      <li><a href="https://succubuns.com/shops/44" title="Fallen Festival">
+        <img src="https://succubuns.com/images/data/currencies/JjIH1np7J427-icon.png" alt="">Fallen Festival</a></li>
     </ul>
   </section>
 
   <section>
     <h2>Baobears</h2>
     <ul class="dailies">
-      <li><a href="https://baobears.com/dailies/7" title="Fall Forage">
-        <img src="https://baobears.com/images/data/dailies/7-image.png" alt="">Fall Forage</a></li>
       <li><a href="https://baobears.com/characters" title="My Baobears">
         <img data-image-key="img-baobears-tile" src="https://baobears.com/files/bao_news.png" alt="">My Baobears</a></li>
       <li><a href="https://baobears.com/dailies/1" title="Beans">
@@ -181,6 +43,8 @@
         <img src="https://baobears.com/images/data/dailies/2-image.png" alt="">Dumplings</a></li>
       <li><a href="https://baobears.com/dailies/6" title="BaoQuest">
         <img src="https://baobears.com/images/data/dailies/6-image.png" alt="">BaoQuest</a></li>
+      <li><a href="https://baobears.com/dailies/7" title="Fall Forage">
+        <img src="https://baobears.com/images/data/dailies/7-image.png" alt="">Fall Forage</a></li>
     </ul>
   </section>
 
@@ -189,24 +53,24 @@
     <ul class="dailies">
       <li><a href="https://www.cupidcats.online/races" title="Races">
         <img src="https://www.cupidcats.online/images/data/currencies/KYNxeqX5Uy7-image.png" alt="">Races</a></li>
+      <li><a href="#" title="Featured Pet" data-hide-if-incomplete data-url-key="cupidcats-pet-url">
+        <img data-image-key="img-cupidcats-featured" src="https://www.cupidcats.online/images/data/items/uWChVqHOJi386-image.png" alt="">Featured Pet</a></li>
+      <li><a href="https://www.cupidcats.online/pets" title="All Pets">
+        <img src="https://www.cupidcats.online/images/data/pets/103z3yFNsik6C-image.PNG" alt="">All Pets</a></li>
       <li><a href="https://www.cupidcats.online/expeditions" title="Expeditions">
         <img src="https://www.cupidcats.online/images/data/items/6H9aiuk2Td140-image.png" alt="">Expeditions</a></li>
-      <li><a href="https://www.cupidcats.online/dailies/5" title="Candy">
-        <img src="https://www.cupidcats.online/images/data/dailies/5-image.png" alt="">Candy</a></li>
-      <li><a href="#" title="Featured Pet">
-        <img data-image-key="img-cupidcats-featured" class="blank" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">Featured Pet</a></li>
-      <li><a href="https://www.cupidcats.online/pets" title="Pets" data-key="cupidcats-pet" data-template="https://www.cupidcats.online/user/{cupidcats-user}/pets/{cupidcats-pet}">
-        <img src="https://www.cupidcats.online/images/data/pets/103z3yFNsik6C-image.PNG" alt="">Pets</a></li>
       <li><a href="https://www.cupidcats.online/dailies/11" title="Wheel of Fortune">
         <img src="https://www.cupidcats.online/images/data/dailies/11-image.png" alt="">Wheel of Fortune</a></li>
       <li><a href="https://www.cupidcats.online/dailies/12" title="Plinko">
         <img src="https://www.cupidcats.online/images/data/dailies/12-image.png" alt="">Plinko</a></li>
+      <li><a href="https://www.cupidcats.online/dailies/1" title="Heartbits">
+        <img src="https://www.cupidcats.online/images/data/dailies/1-image.png" alt="">Heartbits</a></li>
       <li><a href="https://www.cupidcats.online/dailies/10" title="Cradle Altar">
         <img src="https://www.cupidcats.online/images/data/dailies/10-button-image.png" alt="">Cradle Altar</a></li>
       <li><a href="https://www.cupidcats.online/cradle" title="Cradle">
         <img src="https://www.cupidcats.online/images/data/dailies/10-image.png" alt="">Cradle</a></li>
-      <li><a href="https://www.cupidcats.online/dailies/1" title="Heartbits">
-        <img src="https://www.cupidcats.online/images/data/dailies/1-image.png" alt="">Heartbits</a></li>
+      <li><a href="https://www.cupidcats.online/dailies/5" title="Candy">
+        <img src="https://www.cupidcats.online/images/data/dailies/5-image.png" alt="">Candy</a></li>
     </ul>
   </section>
 
@@ -214,7 +78,7 @@
     <h2>Mothcats</h2>
     <ul class="dailies">
       <li><a href="https://mothcats.com/" title="Dailies">
-        <img class="blank" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">Dailies</a></li>
+        <img src="https://mothcats.com/images/honey_tile.png" alt="">Dailies</a></li>
     </ul>
   </section>
 
@@ -222,232 +86,37 @@
   </div>
 
   <div id="settings-view" hidden>
-    <section class="settings">
-      <h2>Succubuns</h2>
+    <label class="notes-toggle">
+      <input type="checkbox" id="show-notes" class="switch-input">
+      Show instructions
+      <span class="switch" aria-hidden="true"></span>
+    </label>
+    <details class="settings" id="succ-settings" open>
+      <summary><h2>Succubuns</h2></summary>
+      <p class="settings-note">Type your character’s name, then paste their ID. The ID is the part of your character’s page link after <code>/character/</code>, for example <code>MYO-12345</code>. Each character gets a Pets tile, labeled with the name once you add one.</p>
       <div id="succ-rows"></div>
       <button id="succ-add" type="button" class="add">+ Add character</button>
-    </section>
+    </details>
     <section class="settings">
       <h2>Baobears</h2>
+      <p class="settings-note">Paste an image link to use for the My Baobears tile. Leave it blank to keep the default.</p>
       <div class="settings-row">
-        <label for="baobears-image">Tile image</label>
+        <label for="baobears-image">My Baobears</label>
         <input id="baobears-image" data-image-key="img-baobears-tile" placeholder="Image URL (optional)" aria-label="Baobears tile image URL" autocomplete="off" spellcheck="false">
       </div>
     </section>
     <section class="settings">
       <h2>CupidCats</h2>
+      <p class="settings-note">Paste the full link to your Featured Pet, starting with <code>https://</code>. You can copy it from your browser’s address bar while viewing the pet. The tile only appears once you add this link. Paste an image link in the second box if you want a different tile image, such as a picture of your particular pet.</p>
       <div class="settings-row">
-        <label for="cupidcats-user">Username</label>
-        <input id="cupidcats-user" data-key="cupidcats-user" autocomplete="off" spellcheck="false">
-      </div>
-      <div class="settings-row">
-        <label for="cupidcats-pet">Pet ID</label>
-        <input id="cupidcats-pet" data-key="cupidcats-pet" autocomplete="off" spellcheck="false">
-      </div>
-      <div class="settings-row">
-        <label for="cupidcats-featured-image">Featured Pet image</label>
+        <label for="cupidcats-pet-url">Featured Pet</label>
+        <input id="cupidcats-pet-url" data-url-key="cupidcats-pet-url" placeholder="URL" aria-label="Featured Pet URL" autocomplete="off" spellcheck="false">
         <input id="cupidcats-featured-image" data-image-key="img-cupidcats-featured" placeholder="Image URL (optional)" aria-label="Featured Pet image URL" autocomplete="off" spellcheck="false">
       </div>
     </section>
+    <p class="settings-note">Image links must start with <code>https://</code>. To copy one, right-click the image and choose Copy Image Address. On a phone, press and hold the image. If a box turns red, check that the link starts with <code>https://</code> and is copied in full.</p>
   </div>
 </main>
-<script>
-(function () {
-  var SUCC_KEY = "succubuns-chars";
-  var PETS_IMG = "https://succubuns.com/images/data/pets/24-image.png";
-
-  function read(key) {
-    try { return localStorage.getItem(key) || ""; } catch (e) { return ""; }
-  }
-  function write(key, value) {
-    try {
-      if (value) localStorage.setItem(key, value);
-      else localStorage.removeItem(key);
-    } catch (e) {}
-  }
-  function validUrl(v) {
-    return /^https:\/\/[^\s"'<>]+$/.test(v);
-  }
-  function clean(v) {
-    return (v || "").trim().replace(/[^A-Za-z0-9_-]/g, "");
-  }
-  function loadChars() {
-    try {
-      var list = JSON.parse(localStorage.getItem(SUCC_KEY) || "[]");
-      return Array.isArray(list) ? list : [];
-    } catch (e) { return []; }
-  }
-  function saveChars(list) {
-    try { localStorage.setItem(SUCC_KEY, JSON.stringify(list)); } catch (e) {}
-  }
-
-  // Succubuns: a saved list of { name, id } entries
-  var chars = loadChars();
-  var rowsEl = document.getElementById("succ-rows");
-  var slot = document.querySelector("[data-succ-slot]");
-
-  function renderTiles() {
-    document.querySelectorAll("li.succ-generated").forEach(function (li) { li.remove(); });
-    chars.forEach(function (c) {
-      var id = clean(c.id);
-      if (!id) return;
-      var name = (c.name || "").trim();
-      var label = name ? name + "\u2019s Pets" : "Pets";
-      var li = document.createElement("li");
-      li.className = "succ-generated";
-      var a = document.createElement("a");
-      a.href = "https://succubuns.com/character/" + encodeURIComponent(id) + "/menagerie";
-      a.title = label;
-      var img = document.createElement("img");
-      img.src = c.image && validUrl(c.image) ? c.image : PETS_IMG;
-      img.alt = "";
-      a.appendChild(img);
-      a.appendChild(document.createTextNode(label));
-      li.appendChild(a);
-      slot.parentNode.insertBefore(li, slot);
-    });
-  }
-
-  function makeInput(placeholder, label, value) {
-    var input = document.createElement("input");
-    input.placeholder = placeholder;
-    input.setAttribute("aria-label", label);
-    input.value = value;
-    input.autocomplete = "off";
-    input.spellcheck = false;
-    return input;
-  }
-
-  function renderRows() {
-    rowsEl.innerHTML = "";
-    chars.forEach(function (c) {
-      var row = document.createElement("div");
-      row.className = "settings-row";
-      var nameInput = makeInput("Name", "Character name", c.name || "");
-      var idInput = makeInput("Character ID", "Character ID", c.id || "");
-      var imageInput = makeInput("Image URL (optional)", "Character image URL", c.image || "");
-      var remove = document.createElement("button");
-      remove.type = "button";
-      remove.className = "remove";
-      remove.textContent = "\u00d7";
-      remove.setAttribute("aria-label", "Remove character");
-
-      nameInput.addEventListener("input", function () {
-        c.name = nameInput.value.trim().slice(0, 40);
-        saveChars(chars);
-        renderTiles();
-      });
-      idInput.addEventListener("input", function () {
-        c.id = clean(idInput.value);
-        idInput.value = c.id;
-        saveChars(chars);
-        renderTiles();
-      });
-      remove.addEventListener("click", function () {
-        var i = chars.indexOf(c);
-        if (i > -1) chars.splice(i, 1);
-        saveChars(chars);
-        renderRows();
-        renderTiles();
-      });
-
-      row.appendChild(nameInput);
-      imageInput.addEventListener("input", function () {
-        var v = imageInput.value.trim();
-        if (v === "" || validUrl(v)) {
-          imageInput.removeAttribute("aria-invalid");
-          c.image = v;
-          saveChars(chars);
-          renderTiles();
-        } else {
-          imageInput.setAttribute("aria-invalid", "true");
-        }
-      });
-
-      row.appendChild(idInput);
-      row.appendChild(imageInput);
-      row.appendChild(remove);
-      rowsEl.appendChild(row);
-    });
-  }
-
-  document.getElementById("succ-add").addEventListener("click", function () {
-    chars.push({ name: "", id: "" });
-    saveChars(chars);
-    renderRows();
-    var inputs = rowsEl.lastElementChild ? rowsEl.lastElementChild.querySelectorAll("input") : [];
-    if (inputs.length) inputs[0].focus();
-  });
-
-  renderRows();
-  renderTiles();
-
-  // CupidCats: a fixed username and pet ID, built into the Pets tile link
-  function updateTiles() {
-    document.querySelectorAll("a[data-template]").forEach(function (a) {
-      var complete = true;
-      var href = a.dataset.template.replace(/\{([a-z0-9-]+)\}/g, function (_, key) {
-        var v = clean(read(key));
-        if (!v) complete = false;
-        return encodeURIComponent(v);
-      });
-      if (complete) a.href = href;
-    });
-  }
-  document.querySelectorAll("input[data-key]").forEach(function (input) {
-    input.value = read(input.dataset.key);
-    input.addEventListener("input", function () {
-      var id = clean(input.value);
-      input.value = id;
-      write(input.dataset.key, id);
-      updateTiles();
-    });
-  });
-  updateTiles();
-
-  // Tile images: a saved https URL replaces the default; clearing it restores the default
-  document.querySelectorAll("img[data-image-key]").forEach(function (img) {
-    img.dataset.defaultSrc = img.getAttribute("src");
-    img.dataset.wasBlank = img.classList.contains("blank") ? "true" : "false";
-  });
-  function updateImages() {
-    document.querySelectorAll("img[data-image-key]").forEach(function (img) {
-      var url = read(img.dataset.imageKey).trim();
-      if (url && validUrl(url)) {
-        img.src = url;
-        img.classList.remove("blank");
-      } else {
-        img.src = img.dataset.defaultSrc;
-        img.classList.toggle("blank", img.dataset.wasBlank === "true");
-      }
-    });
-  }
-  document.querySelectorAll("input[data-image-key]").forEach(function (input) {
-    input.value = read(input.dataset.imageKey);
-    input.addEventListener("input", function () {
-      var v = input.value.trim();
-      if (v === "" || validUrl(v)) {
-        input.removeAttribute("aria-invalid");
-        write(input.dataset.imageKey, v);
-        updateImages();
-      } else {
-        input.setAttribute("aria-invalid", "true");
-      }
-    });
-  });
-  updateImages();
-
-  // Gear: switch between dailies and settings
-  var gear = document.getElementById("gear");
-  var dailiesView = document.getElementById("dailies-view");
-  var settingsView = document.getElementById("settings-view");
-  gear.addEventListener("click", function () {
-    var showSettings = settingsView.hidden;
-    settingsView.hidden = !showSettings;
-    dailiesView.hidden = showSettings;
-    gear.setAttribute("aria-expanded", String(showSettings));
-  });
-})();
-</script>
+<script src="script.js"></script>
 </body>
 </html>

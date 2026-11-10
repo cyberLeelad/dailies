@@ -1,0 +1,198 @@
+  :root {
+    --icon: 64px;            /* change this number to resize every icon */
+    --bg: #f6f2f8;
+    --card: #ffffff;
+    --ink: #2b2233;
+    --muted: #6d6277;
+    --line: #ddd2e6;
+    --accent: #7a3f9d;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1b1520;
+      --card: #261e2d;
+      --ink: #efe8f4;
+      --muted: #a698b3;
+      --line: #3a2f44;
+      --accent: #c79ae0;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1rem 4rem;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.5 Georgia, "Times New Roman", serif;
+  }
+  main { max-width: 44rem; margin: 0 auto; }
+  h1 { font-size: 1.9rem; margin: 0 0 1.5rem; }
+  section {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1rem 1.25rem 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  h2 { font-size: 1.15rem; margin: 0 0 1rem; color: var(--accent); }
+  .dailies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .dailies a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: calc(var(--icon) + 1.5rem);
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    line-height: 1.25;
+    text-align: center;
+    border-radius: 4px;
+    padding: 0.25rem;
+  }
+  .dailies a:hover, .dailies a:focus-visible {
+    color: var(--ink);
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .dailies img {
+    width: var(--icon);
+    height: var(--icon);
+    object-fit: contain;
+    image-rendering: pixelated;   /* keeps pixel art crisp when enlarged */
+    margin-bottom: 0.3rem;
+  }
+  .dailies img.blank {
+    border: 1px dashed var(--line);
+    border-radius: 4px;
+  }
+  [hidden] { display: none !important; }
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 1.5rem;
+  }
+  .top h1 { margin: 0; }
+  .gear {
+    background: none;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    font-size: 1.6rem;
+    line-height: 1;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .gear:hover, .gear:focus-visible, .gear[aria-expanded="true"] { color: var(--ink); }
+  .gear:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .settings {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1rem 1.25rem 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  .settings-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+  .settings input::placeholder { color: var(--muted); opacity: 0.8; }
+  .settings-row > label {
+    flex: 0 0 6.5rem;
+  }
+  .settings input {
+    flex: 1 1 auto;
+    min-width: 0;
+    font: inherit;
+    padding: 0.35rem 0.5rem;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+  .settings button.remove, .settings button.add {
+    font: inherit;
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .settings button.remove { flex: 0 0 auto; padding: 0.2rem 0.6rem; font-size: 1.1rem; line-height: 1; }
+  .settings button.add { margin-top: 0.75rem; padding: 0.3rem 0.7rem; }
+  .settings button:hover, .settings button:focus-visible { color: var(--ink); }
+  .settings-row { flex-wrap: wrap; }
+  .settings-row input { flex: 1 1 8rem; }
+  .settings input[aria-invalid="true"] { border-color: #c0392b; }
+  #succ-settings > summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  #succ-settings > summary::-webkit-details-marker { display: none; }
+  #succ-settings > summary h2 { margin: 0; }
+  #succ-settings > summary::after {
+    content: "\25BE";
+    color: var(--muted);
+    font-size: 1rem;
+  }
+  #succ-settings:not([open]) > summary::after { content: "\25B8"; }
+  #succ-settings:not([open]) > summary { margin-bottom: 0; }
+  .settings-note {
+    display: none;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin: 0.5rem 0 0;
+  }
+  #settings-view.show-notes .settings-note { display: block; }
+  .notes-toggle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1rem;
+    color: var(--muted);
+    margin: 0 0 0.75rem;
+    cursor: pointer;
+  }
+  .switch-input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+  }
+  .switch {
+    position: relative;
+    flex: 0 0 auto;
+    width: 2.25rem;
+    height: 1.25rem;
+    border-radius: 999px;
+    background: var(--line);
+    transition: background 0.2s;
+  }
+  .switch::after {
+    content: "";
+    position: absolute;
+    top: 0.15rem;
+    left: 0.15rem;
+    width: 0.95rem;
+    height: 0.95rem;
+    border-radius: 50%;
+    background: var(--bg);
+    transition: transform 0.2s;
+  }
+  .switch-input:checked + .switch { background: var(--accent); }
+  .switch-input:checked + .switch::after { transform: translateX(1rem); }
+  .switch-input:focus-visible + .switch { outline: 2px solid var(--accent); outline-offset: 2px; }
