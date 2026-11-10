@@ -79,11 +79,77 @@
     border: 1px dashed var(--line);
     border-radius: 4px;
   }
+  [hidden] { display: none !important; }
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 1.5rem;
+  }
+  .top h1 { margin: 0; }
+  .gear {
+    background: none;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    font-size: 1.6rem;
+    line-height: 1;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .gear:hover, .gear:focus-visible, .gear[aria-expanded="true"] { color: var(--ink); }
+  .gear:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .settings {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1rem 1.25rem 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  .settings-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+  .settings input::placeholder { color: var(--muted); opacity: 0.8; }
+  .settings-row > label {
+    flex: 0 0 6.5rem;
+  }
+  .settings input {
+    flex: 1 1 auto;
+    min-width: 0;
+    font: inherit;
+    padding: 0.35rem 0.5rem;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+  .settings button.remove, .settings button.add {
+    font: inherit;
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .settings button.remove { flex: 0 0 auto; padding: 0.2rem 0.6rem; font-size: 1.1rem; line-height: 1; }
+  .settings button.add { margin-top: 0.75rem; padding: 0.3rem 0.7rem; }
+  .settings button:hover, .settings button:focus-visible { color: var(--ink); }
+  .settings-row { flex-wrap: wrap; }
+  .settings-row input { flex: 1 1 8rem; }
+  .settings input[aria-invalid="true"] { border-color: #c0392b; }
 </style>
 </head>
 <body>
 <main>
-  <h1>Dailies</h1>
+  <header class="top">
+    <h1>Dailies</h1>
+    <button id="gear" class="gear" type="button" aria-label="Settings" aria-expanded="false" aria-controls="settings-view">&#9881;</button>
+  </header>
+
+  <div id="dailies-view">
 
   <section>
     <h2>Succubuns</h2>
@@ -92,8 +158,7 @@
         <img src="https://succubuns.com/images/data/buttons/yhtGMfifzr79-image.png" alt="">Fallen Festival</a></li>
       <li><a href="https://succubuns.com/errands" title="Errands">
         <img src="https://file.garden/ZT2StWKGxCOellbN/decor/carrot.png" alt="">Errands</a></li>
-      <li><a href="https://succubuns.com/characters" title="Pets">
-        <img src="https://succubuns.com/images/data/pets/24-image.png" alt="">Pets</a></li>
+      <li data-succ-slot hidden></li>
       <li><a href="https://succubuns.com/info/wonderland-casino" title="Casino">
         <img src="https://succubuns.com/images/data/currencies/1-icon.png" alt="">Casino</a></li>
       <li><a href="https://succubuns.com/info/idol-worship" title="Church of Sulfur">
@@ -109,7 +174,7 @@
       <li><a href="https://baobears.com/dailies/7" title="Fall Forage">
         <img src="https://baobears.com/images/data/dailies/7-image.png" alt="">Fall Forage</a></li>
       <li><a href="https://baobears.com/characters" title="My Baobears">
-        <img src="https://baobears.com/files/bao_news.png" alt="">My Baobears</a></li>
+        <img data-image-key="img-baobears-tile" src="https://baobears.com/files/bao_news.png" alt="">My Baobears</a></li>
       <li><a href="https://baobears.com/dailies/1" title="Beans">
         <img src="https://baobears.com/images/data/dailies/1-image.png" alt="">Beans</a></li>
       <li><a href="https://baobears.com/dailies/2" title="Dumplings">
@@ -129,8 +194,8 @@
       <li><a href="https://www.cupidcats.online/dailies/5" title="Candy">
         <img src="https://www.cupidcats.online/images/data/dailies/5-image.png" alt="">Candy</a></li>
       <li><a href="#" title="Featured Pet">
-        <img class="blank" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">Featured Pet</a></li>
-      <li><a href="https://www.cupidcats.online/pets" title="Pets">
+        <img data-image-key="img-cupidcats-featured" class="blank" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">Featured Pet</a></li>
+      <li><a href="https://www.cupidcats.online/pets" title="Pets" data-key="cupidcats-pet" data-template="https://www.cupidcats.online/user/{cupidcats-user}/pets/{cupidcats-pet}">
         <img src="https://www.cupidcats.online/images/data/pets/103z3yFNsik6C-image.PNG" alt="">Pets</a></li>
       <li><a href="https://www.cupidcats.online/dailies/11" title="Wheel of Fortune">
         <img src="https://www.cupidcats.online/images/data/dailies/11-image.png" alt="">Wheel of Fortune</a></li>
@@ -154,6 +219,235 @@
   </section>
 
   <!-- To add another ArtRPG, copy the whole <section> above and swap in its links. -->
+  </div>
+
+  <div id="settings-view" hidden>
+    <section class="settings">
+      <h2>Succubuns</h2>
+      <div id="succ-rows"></div>
+      <button id="succ-add" type="button" class="add">+ Add character</button>
+    </section>
+    <section class="settings">
+      <h2>Baobears</h2>
+      <div class="settings-row">
+        <label for="baobears-image">Tile image</label>
+        <input id="baobears-image" data-image-key="img-baobears-tile" placeholder="Image URL (optional)" aria-label="Baobears tile image URL" autocomplete="off" spellcheck="false">
+      </div>
+    </section>
+    <section class="settings">
+      <h2>CupidCats</h2>
+      <div class="settings-row">
+        <label for="cupidcats-user">Username</label>
+        <input id="cupidcats-user" data-key="cupidcats-user" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="settings-row">
+        <label for="cupidcats-pet">Pet ID</label>
+        <input id="cupidcats-pet" data-key="cupidcats-pet" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="settings-row">
+        <label for="cupidcats-featured-image">Featured Pet image</label>
+        <input id="cupidcats-featured-image" data-image-key="img-cupidcats-featured" placeholder="Image URL (optional)" aria-label="Featured Pet image URL" autocomplete="off" spellcheck="false">
+      </div>
+    </section>
+  </div>
 </main>
+<script>
+(function () {
+  var SUCC_KEY = "succubuns-chars";
+  var PETS_IMG = "https://succubuns.com/images/data/pets/24-image.png";
+
+  function read(key) {
+    try { return localStorage.getItem(key) || ""; } catch (e) { return ""; }
+  }
+  function write(key, value) {
+    try {
+      if (value) localStorage.setItem(key, value);
+      else localStorage.removeItem(key);
+    } catch (e) {}
+  }
+  function validUrl(v) {
+    return /^https:\/\/[^\s"'<>]+$/.test(v);
+  }
+  function clean(v) {
+    return (v || "").trim().replace(/[^A-Za-z0-9_-]/g, "");
+  }
+  function loadChars() {
+    try {
+      var list = JSON.parse(localStorage.getItem(SUCC_KEY) || "[]");
+      return Array.isArray(list) ? list : [];
+    } catch (e) { return []; }
+  }
+  function saveChars(list) {
+    try { localStorage.setItem(SUCC_KEY, JSON.stringify(list)); } catch (e) {}
+  }
+
+  // Succubuns: a saved list of { name, id } entries
+  var chars = loadChars();
+  var rowsEl = document.getElementById("succ-rows");
+  var slot = document.querySelector("[data-succ-slot]");
+
+  function renderTiles() {
+    document.querySelectorAll("li.succ-generated").forEach(function (li) { li.remove(); });
+    chars.forEach(function (c) {
+      var id = clean(c.id);
+      if (!id) return;
+      var name = (c.name || "").trim();
+      var label = name ? name + "\u2019s Pets" : "Pets";
+      var li = document.createElement("li");
+      li.className = "succ-generated";
+      var a = document.createElement("a");
+      a.href = "https://succubuns.com/character/" + encodeURIComponent(id) + "/menagerie";
+      a.title = label;
+      var img = document.createElement("img");
+      img.src = c.image && validUrl(c.image) ? c.image : PETS_IMG;
+      img.alt = "";
+      a.appendChild(img);
+      a.appendChild(document.createTextNode(label));
+      li.appendChild(a);
+      slot.parentNode.insertBefore(li, slot);
+    });
+  }
+
+  function makeInput(placeholder, label, value) {
+    var input = document.createElement("input");
+    input.placeholder = placeholder;
+    input.setAttribute("aria-label", label);
+    input.value = value;
+    input.autocomplete = "off";
+    input.spellcheck = false;
+    return input;
+  }
+
+  function renderRows() {
+    rowsEl.innerHTML = "";
+    chars.forEach(function (c) {
+      var row = document.createElement("div");
+      row.className = "settings-row";
+      var nameInput = makeInput("Name", "Character name", c.name || "");
+      var idInput = makeInput("Character ID", "Character ID", c.id || "");
+      var imageInput = makeInput("Image URL (optional)", "Character image URL", c.image || "");
+      var remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "remove";
+      remove.textContent = "\u00d7";
+      remove.setAttribute("aria-label", "Remove character");
+
+      nameInput.addEventListener("input", function () {
+        c.name = nameInput.value.trim().slice(0, 40);
+        saveChars(chars);
+        renderTiles();
+      });
+      idInput.addEventListener("input", function () {
+        c.id = clean(idInput.value);
+        idInput.value = c.id;
+        saveChars(chars);
+        renderTiles();
+      });
+      remove.addEventListener("click", function () {
+        var i = chars.indexOf(c);
+        if (i > -1) chars.splice(i, 1);
+        saveChars(chars);
+        renderRows();
+        renderTiles();
+      });
+
+      row.appendChild(nameInput);
+      imageInput.addEventListener("input", function () {
+        var v = imageInput.value.trim();
+        if (v === "" || validUrl(v)) {
+          imageInput.removeAttribute("aria-invalid");
+          c.image = v;
+          saveChars(chars);
+          renderTiles();
+        } else {
+          imageInput.setAttribute("aria-invalid", "true");
+        }
+      });
+
+      row.appendChild(idInput);
+      row.appendChild(imageInput);
+      row.appendChild(remove);
+      rowsEl.appendChild(row);
+    });
+  }
+
+  document.getElementById("succ-add").addEventListener("click", function () {
+    chars.push({ name: "", id: "" });
+    saveChars(chars);
+    renderRows();
+    var inputs = rowsEl.lastElementChild ? rowsEl.lastElementChild.querySelectorAll("input") : [];
+    if (inputs.length) inputs[0].focus();
+  });
+
+  renderRows();
+  renderTiles();
+
+  // CupidCats: a fixed username and pet ID, built into the Pets tile link
+  function updateTiles() {
+    document.querySelectorAll("a[data-template]").forEach(function (a) {
+      var complete = true;
+      var href = a.dataset.template.replace(/\{([a-z0-9-]+)\}/g, function (_, key) {
+        var v = clean(read(key));
+        if (!v) complete = false;
+        return encodeURIComponent(v);
+      });
+      if (complete) a.href = href;
+    });
+  }
+  document.querySelectorAll("input[data-key]").forEach(function (input) {
+    input.value = read(input.dataset.key);
+    input.addEventListener("input", function () {
+      var id = clean(input.value);
+      input.value = id;
+      write(input.dataset.key, id);
+      updateTiles();
+    });
+  });
+  updateTiles();
+
+  // Tile images: a saved https URL replaces the default; clearing it restores the default
+  document.querySelectorAll("img[data-image-key]").forEach(function (img) {
+    img.dataset.defaultSrc = img.getAttribute("src");
+    img.dataset.wasBlank = img.classList.contains("blank") ? "true" : "false";
+  });
+  function updateImages() {
+    document.querySelectorAll("img[data-image-key]").forEach(function (img) {
+      var url = read(img.dataset.imageKey).trim();
+      if (url && validUrl(url)) {
+        img.src = url;
+        img.classList.remove("blank");
+      } else {
+        img.src = img.dataset.defaultSrc;
+        img.classList.toggle("blank", img.dataset.wasBlank === "true");
+      }
+    });
+  }
+  document.querySelectorAll("input[data-image-key]").forEach(function (input) {
+    input.value = read(input.dataset.imageKey);
+    input.addEventListener("input", function () {
+      var v = input.value.trim();
+      if (v === "" || validUrl(v)) {
+        input.removeAttribute("aria-invalid");
+        write(input.dataset.imageKey, v);
+        updateImages();
+      } else {
+        input.setAttribute("aria-invalid", "true");
+      }
+    });
+  });
+  updateImages();
+
+  // Gear: switch between dailies and settings
+  var gear = document.getElementById("gear");
+  var dailiesView = document.getElementById("dailies-view");
+  var settingsView = document.getElementById("settings-view");
+  gear.addEventListener("click", function () {
+    var showSettings = settingsView.hidden;
+    settingsView.hidden = !showSettings;
+    dailiesView.hidden = showSettings;
+    gear.setAttribute("aria-expanded", String(showSettings));
+  });
+})();
+</script>
 </body>
 </html>
