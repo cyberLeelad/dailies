@@ -121,6 +121,16 @@
         <input id="cupidcats-featured-image" data-image-key="img-cupidcats-featured" placeholder="Image URL (optional)" aria-label="Featured Pet image URL" autocomplete="off" spellcheck="false">
       </div>
     </section>
+    <details class="settings collapsible" id="backup">
+      <summary><h2>Export / import</h2></summary>
+      <p class="settings-note">Exporting copies your settings as text, so you can paste them into another browser. That text contains your personal details, so keep it private and don’t post it in the repo or anywhere public.</p>
+      <div class="settings-row">
+        <button id="export-btn" type="button" class="add">Export settings</button>
+        <button id="import-btn" type="button" class="add">Import settings</button>
+      </div>
+      <textarea id="backup-text" rows="4" placeholder="Export to see your settings here, or paste a backup to import it" aria-label="Settings backup text"></textarea>
+      <p id="backup-status" class="backup-status" role="status"></p>
+    </details>
     <p class="settings-note">Image links must start with <code>https://</code>. To copy one, right-click the image and choose Copy Image Address. On a phone, press and hold the image. If a box turns red, check that the link starts with <code>https://</code> and is copied in full.</p>
   </div>
 </main>

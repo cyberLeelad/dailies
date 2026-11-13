@@ -1,4 +1,4 @@
-  :root {
+:root {
     --icon: 64px;            /* change this number to resize every icon */
     --bg: #f6f2f8;
     --card: #ffffff;
@@ -133,22 +133,22 @@
   .settings-row { flex-wrap: wrap; }
   .settings-row input { flex: 1 1 8rem; }
   .settings input[aria-invalid="true"] { border-color: #c0392b; }
-  #succ-settings > summary {
+  .collapsible > summary {
     list-style: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 0.5rem;
   }
-  #succ-settings > summary::-webkit-details-marker { display: none; }
-  #succ-settings > summary h2 { margin: 0; }
-  #succ-settings > summary::after {
+  .collapsible > summary::-webkit-details-marker { display: none; }
+  .collapsible > summary h2 { margin: 0; }
+  .collapsible > summary::after {
     content: "\25BE";
     color: var(--muted);
     font-size: 1rem;
   }
-  #succ-settings:not([open]) > summary::after { content: "\25B8"; }
-  #succ-settings:not([open]) > summary { margin-bottom: 0; }
+  .collapsible:not([open]) > summary::after { content: "\25B8"; }
+  .collapsible:not([open]) > summary { margin-bottom: 0; }
   .settings-note {
     display: none;
     font-size: 0.85rem;
@@ -196,3 +196,22 @@
   .switch-input:checked + .switch { background: var(--accent); }
   .switch-input:checked + .switch::after { transform: translateX(1rem); }
   .switch-input:focus-visible + .switch { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .settings textarea {
+    width: 100%;
+    margin-top: 0.75rem;
+    font: inherit;
+    font-size: 0.9rem;
+    padding: 0.4rem 0.5rem;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    resize: vertical;
+  }
+  .backup-status {
+    min-height: 1.2em;
+    margin: 0.5rem 0 0;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }

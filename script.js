@@ -193,6 +193,58 @@
     document.getElementById("settings-view").classList.toggle("show-notes", notesToggle.checked);
   });
 
+   // Export / import settings
+  var BACKUP_KEYS = ["cupidcats-pet-url", "img-baobears-tile", "img-cupidcats-featured"];
+  var backupText = document.getElementById("backup-text");
+  var backupStatus = document.getElementById("backup-status");
+ 
+  function buildBackup() {
+    var settings = { "succubuns-chars": loadChars() };
+    BACKUP_KEYS.forEach(function (k) { settings[k] = read(k).trim(); });
+    return JSON.stringify({ version: 1, settings: settings }, null, 2);
+  }
+ 
+  document.getElementById("export-btn").addEventListener("click", function () {
+    backupText.value = buildBackup();
+    backupText.select();
+    var manual = "Text is ready below. Select it and copy.";
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(backupText.value).then(
+        function () { backupStatus.textContent = "Copied. Keep this private."; },
+        function () { backupStatus.textContent = manual; }
+      );
+    } else {
+      backupStatus.textContent = manual;
+    }
+  });
+ 
+  document.getElementById("import-btn").addEventListener("click", function () {
+    var data = null;
+    try { data = JSON.parse(backupText.value); } catch (e) {}
+    if (!data || data.version !== 1 || !data.settings || typeof data.settings !== "object") {
+      backupStatus.textContent = "That doesn’t look like a settings backup.";
+      return;
+    }
+    var s = data.settings;
+    var raw = Array.isArray(s["succubuns-chars"]) ? s["succubuns-chars"] : [];
+    var list = raw.map(function (c) {
+      c = c || {};
+      var image = typeof c.image === "string" ? c.image.trim() : "";
+      return {
+        name: typeof c.name === "string" ? c.name.trim().slice(0, 40) : "",
+        id: typeof c.id === "string" ? clean(c.id) : "",
+        image: image && validUrl(image) ? image : ""
+      };
+    }).filter(function (c) { return c.name || c.id || c.image; });
+    saveChars(list);
+    BACKUP_KEYS.forEach(function (k) {
+      var v = typeof s[k] === "string" ? s[k].trim() : "";
+      write(k, v && validUrl(v) ? v : "");
+    });
+    backupStatus.textContent = "Imported " + list.length + " character(s). Reloading…";
+    setTimeout(function () { location.reload(); }, 800);
+  });
+
   // Gear: switch between dailies and settings
   var gear = document.getElementById("gear");
   var dailiesView = document.getElementById("dailies-view");
