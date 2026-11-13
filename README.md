@@ -8,13 +8,15 @@ Clicking a tile opens that daily in the same tab. Complete the daily, press back
 
 Press the gear in the top right to open settings. Some dailies need a bit of setup. Turn on **Show instructions** in settings for help.
 
+Settings can be imported and exported between browsers using the option in the settings tab and copy/paste.
+
 ## Privacy
 
-Some links require data that can identify you, such as your characters’ names and IDs, your username, and your choice of images. To keep your information private, links within this site rely on user-provided settings, which are saved only in your browser.
+Some links require data that can identify you. No passwords are stored, only things that connect you to your account, like your characters’ names and IDs, your username, and your choice of images. To keep your information private, links within this site rely on user-provided settings, which are saved only in your browser.
 
-Clearing site data will erase your settings. A new browser does not have settings you configured on a different browser.
+Settings persist between visits using the same browser.
 
-Settings do persist between visits using the same browser.
+Clearing site data will erase your settings. A new browser does not have settings you configured on a different browser, unless you import them.
 
 Icons and images load from each ArtRPG's site, the same way they would if you visited that site directly. Your settings stay in your browser, and the only outside requests are for those icons and images.
 
