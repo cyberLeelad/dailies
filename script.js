@@ -7,13 +7,9 @@
     cupidcats: "America/Chicago",
     mothcats:  "America/Chicago"
   };
-  var NO_FADE = [
-    "https://succubuns.com/errands",
-    "https://www.cupidcats.online/races",
-    "https://www.cupidcats.online/expeditions",
-    "https://www.cupidcats.online/dailies/12",   // Plinko
-    "https://mothcats.com/"                      // Mothcats Dailies
-  ];
+  function isManual(a) {
+    return a.hasAttribute("data-manual");
+  }
 
   function read(key) {
     try { return localStorage.getItem(key) || ""; } catch (e) { return ""; }
@@ -382,8 +378,10 @@
       if (!tz) return;
       var today = todayIn(tz);
       sec.querySelectorAll(".dailies a").forEach(function (a) {
-        var skip = NO_FADE.indexOf(a.href) > -1;
-        a.classList.toggle("done", !skip && read("done:" + a.href) === today);
+        var done = read("done:" + a.href) === today;
+        a.classList.toggle("done", done);
+        var b = a.parentNode.querySelector(".check");
+        if (b) b.setAttribute("aria-pressed", String(done));
       });
     });
   }
@@ -391,12 +389,38 @@
     var a = e.target.closest(".dailies a");
     var sec = a && a.closest("section");
     var tz = sec && zoneFor(sec);
-    if (tz && NO_FADE.indexOf(a.href) === -1) write("done:" + a.href, todayIn(tz));
+    if (tz && !isManual(a)) write("done:" + a.href, todayIn(tz));
   }
+  function addChecks() {
+    document.querySelectorAll("#dailies-view section").forEach(function (sec) {
+      if (!zoneFor(sec)) return;
+      sec.querySelectorAll(".dailies li").forEach(function (li) {
+        var a = li.querySelector("a");
+        if (!a || li.querySelector(".check") || !isManual(a)) return;
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "check";
+        b.setAttribute("aria-label", "Mark " + (a.title || "tile") + " done");
+        b.textContent = "\u2713";
+        li.appendChild(b);
+      });
+    });
+  }
+  document.getElementById("dailies-view").addEventListener("click", function (e) {
+    var b = e.target.closest(".check");
+    if (!b) return;
+    var a = b.parentNode.querySelector("a");
+    var tz = zoneFor(b.closest("section"));
+    var key = "done:" + a.href;
+    var today = todayIn(tz);
+    write(key, read(key) === today ? "" : today);
+    updateDone();
+  });
   document.getElementById("dailies-view").addEventListener("click", markDone);
   document.getElementById("dailies-view").addEventListener("auxclick", markDone);
   document.addEventListener("visibilitychange", updateDone);
   window.addEventListener("pageshow", updateDone);
+  addChecks();
   updateDone();
 
   // Gear: switch between dailies and settings

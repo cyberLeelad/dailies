@@ -242,3 +242,15 @@
     line-height: 1;
     margin-bottom: 0.3rem;
   }
+  .dailies li { position: relative; }
+  .check {
+    position: absolute; top: 0; right: 0;
+    width: 1.75rem; height: 1.75rem; padding: 0;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--card);
+    color: var(--muted);
+    font-size: 0.85rem; line-height: 1;
+    cursor: pointer;
+  }
+  .check[aria-pressed="true"] { background: var(--accent); color: var(--card); border-color: var(--accent); }
