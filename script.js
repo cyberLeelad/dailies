@@ -364,7 +364,7 @@
       timeZone: tz, hour: "numeric", minute: "2-digit", timeZoneName: "short"
     }).formatToParts(date).forEach(function (x) { out[x.type] = x.value; });
     var time = out.hour + (out.minute !== "00" ? ":" + out.minute : "");
-    return time + (out.dayPeriod || "").toLowerCase() + " " + (out.timeZoneName || "");
+    return time + (out.dayPeriod || "").toLowerCase();
   }
   function updateResets() {
     var tz = userTz();
