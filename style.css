@@ -244,7 +244,9 @@
   }
   .dailies li { position: relative; }
   .check {
-    position: absolute; top: 0; right: 0;
+    position: absolute;
+    top: calc(var(--icon) - 1.5rem);   /* was: top: 0 */
+    right: 0;
     width: 1.75rem; height: 1.75rem; padding: 0;
     border-radius: 50%;
     border: 1px solid var(--line);
