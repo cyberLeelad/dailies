@@ -2,10 +2,10 @@
   var SUCC_KEY = "succubuns-chars";
   var PETS_IMG = "https://succubuns.com/images/data/items/i4MGnqrQEs419-image.png";
   var ZONES = {
-    "Succubuns": "America/New York",
-    "Baobears": "UTC",
-    "CupidCats": "America/Chicago",
-    "Mothcats": "America/Chicago"
+    succubuns: "America/New_York",
+    baobears:  "UTC",
+    cupidcats: "America/Chicago",
+    mothcats:  "America/Chicago"
   };
   var NO_FADE = [
     "https://succubuns.com/errands",
@@ -370,7 +370,8 @@
   }
   function zoneFor(section) {
     var h = section.querySelector("h2");
-    return section.dataset.tz || ZONES[h ? h.textContent.trim().toLowerCase() : ""] || null;
+    var name = h && h.firstChild ? h.firstChild.textContent : "";
+    return section.dataset.tz || ZONES[name.trim().toLowerCase()] || null;
   }
   function updateDone() {
     document.querySelectorAll("#dailies-view section").forEach(function (sec) {
