@@ -152,18 +152,20 @@
         a.closest("li").hidden = !complete;
       }
     });
-  }
-  document.querySelectorAll("input[data-url-key]").forEach(function (input) {
-    input.value = read(input.dataset.urlKey);
-    input.addEventListener("input", function () {
-      var v = input.value.trim();
-      if (v === "" || validUrl(v)) {
-        input.removeAttribute("aria-invalid");
-        write(input.dataset.urlKey, v);
-        updateTiles();
-      } else {
-        input.setAttribute("aria-invalid", "true");
+    // Username-based tiles: build the link from the saved username
+    document.querySelectorAll("a[data-user-key]").forEach(function (a) {
+      var user = read(a.dataset.userKey).trim();
+      if (user) a.href = a.dataset.userUrl.replace("{user}", encodeURIComponent(user));
+      if (a.hasAttribute("data-hide-if-incomplete")) {
+        a.closest("li").hidden = !user;
       }
+    });
+  }
+  document.querySelectorAll("input[data-user-key]").forEach(function (input) {
+    input.value = read(input.dataset.userKey);
+    input.addEventListener("input", function () {
+      write(input.dataset.userKey, input.value.trim().slice(0, 40));
+      updateTiles();
     });
   });
   updateTiles();
@@ -227,7 +229,7 @@
   });
 
    // Export / import settings
-  var BACKUP_KEYS = ["cupidcats-pet-url", "img-baobears-tile", "img-cupidcats-featured"];
+  var BACKUP_KEYS = ["cupidcats-pet-url", "img-baobears-tile", "img-cupidcats-featured", "mothcats-username"];
   var backupText = document.getElementById("backup-text");
   var backupStatus = document.getElementById("backup-status");
  
@@ -272,6 +274,7 @@
     saveChars(list);
     BACKUP_KEYS.forEach(function (k) {
       var v = typeof s[k] === "string" ? s[k].trim() : "";
+      if (k === "mothcats-username") { write(k, v.slice(0, 40)); return; }
       write(k, v && validUrl(v) ? v : "");
     });
     backupStatus.textContent = "Imported " + list.length + " character(s). Reloading…";
