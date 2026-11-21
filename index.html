@@ -12,6 +12,12 @@
 <link rel="manifest" href="favicon/site.webmanifest" />
 <!-- end favicons -->
 <link rel="stylesheet" href="style.css">
+<script>
+  try {
+    var t = localStorage.getItem("theme");
+    if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+  } catch (e) {}
+</script>
 </head>
 <body>
 <main>
@@ -113,11 +119,20 @@
   </div>
 
   <div id="settings-view" hidden>
-    <label class="notes-toggle">
-      <input type="checkbox" id="show-notes" class="switch-input">
-      Show instructions
-      <span class="switch" aria-hidden="true"></span>
-    </label>
+
+    <div class="settings-top">
+      <label class="notes-toggle">
+        <input type="checkbox" id="show-notes" class="switch-input">
+        Show instructions
+        <span class="switch" aria-hidden="true"></span>
+      </label>
+      <div class="segmented" role="radiogroup" aria-label="Theme">
+        <label><input type="radio" name="theme" value="" checked><span>System</span></label>
+        <label><input type="radio" name="theme" value="light"><span>Light</span></label>
+        <label><input type="radio" name="theme" value="dark"><span>Dark</span></label>
+      </div>
+    </div>    
+    
     <details class="settings" id="succ-settings" open>
       <summary><h2>Succubuns</h2></summary>
       <p class="settings-note">Type your character’s name, then paste their ID. The ID is the part of your character’s page link after <code>/character/</code>, for example <code>MYO-12345</code>. Each character gets a Pets tile, labeled with the name once you add one.</p>

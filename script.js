@@ -277,6 +277,37 @@
     setTimeout(function () { location.reload(); }, 800);
   });
 
+  // Theme: saved value is "" (system), "light" or "dark"
+  var themeRadios = document.querySelectorAll('input[name="theme"]');
+
+  function applyTheme() {
+    var saved = read("theme");
+    if (saved !== "light" && saved !== "dark") saved = "";
+    themeRadios.forEach(function (r) {
+      r.addEventListener("change", function () {
+        if (!r.checked) return;
+        var root = document.documentElement;
+        root.classList.add("theme-fade");
+        write("theme", r.value);
+        applyTheme();
+        setTimeout(function () { root.classList.remove("theme-fade"); }, 350);
+      });
+    });
+    if (saved) document.documentElement.setAttribute("data-theme", saved);
+    else document.documentElement.removeAttribute("data-theme");
+  }
+
+  themeRadios.forEach(function (r) {
+    r.addEventListener("change", function () {
+      if (r.checked) {
+        write("theme", r.value);
+        applyTheme();
+      }
+    });
+  });
+
+  applyTheme();
+
   // Reset times: each site's reset, shown in the visitor's time zone
   var TZ_KEY = "tz-override";
 
