@@ -1,6 +1,19 @@
 (function () {
   var SUCC_KEY = "succubuns-chars";
   var PETS_IMG = "https://succubuns.com/images/data/items/i4MGnqrQEs419-image.png";
+  var ZONES = {
+    "Succubuns": "America/New York",
+    "Baobears": "UTC",
+    "CupidCats": "America/Chicago",
+    "Mothcats": "America/Chicago"
+  };
+  var NO_FADE = [
+    "https://succubuns.com/errands",
+    "https://www.cupidcats.online/races",
+    "https://www.cupidcats.online/expeditions",
+    "https://www.cupidcats.online/dailies/12",   // Plinko
+    "https://mothcats.com/"                      // Mothcats Dailies
+  ];
 
   function read(key) {
     try { return localStorage.getItem(key) || ""; } catch (e) { return ""; }
@@ -52,6 +65,7 @@
       li.appendChild(a);
       slot.parentNode.insertBefore(li, slot);
     });
+    updateDone();
   }
 
   function makeInput(placeholder, label, value) {
@@ -266,13 +280,6 @@
 
   // Reset times: each site's reset, shown in the visitor's time zone
   var TZ_KEY = "tz-override";
-  var RESETS = {
-    // hour/minute are 24h wall-clock time in tz. Fix these per site.
-    succubuns: { hour: 0, minute: 0, tz: "America/New_York" },
-    baobears:  { hour: 0, minute: 0, tz: "UTC" },
-    cupidcats: { hour: 0, minute: 0, tz: "America/Chicago" },
-    mothcats:  { hour: 0, minute: 0, tz: "America/Chicago" }
-  };
 
   function validTz(tz) {
     try { new Intl.DateTimeFormat("en-US", { timeZone: tz }); return true; }
@@ -305,16 +312,16 @@
     var off = offsetMs(tz, new Date(guess - offsetMs(tz, new Date(guess))));
     return guess - off;
   }
-  function nextReset(r) {
-    var now = Date.now();
-    var p = zoneParts(r.tz, new Date(now));
-    var t = wallToInstant(r.tz, p.year, p.month, p.day, r.hour, r.minute);
-    if (t <= now) {
-      var tm = new Date(Date.UTC(p.year, p.month - 1, p.day + 1));
-      t = wallToInstant(r.tz, tm.getUTCFullYear(), tm.getUTCMonth() + 1, tm.getUTCDate(), r.hour, r.minute);
-    }
-    return new Date(t);
+  function nextReset(tz) {
+  var now = Date.now();
+  var p = zoneParts(tz, new Date(now));
+  var t = wallToInstant(tz, p.year, p.month, p.day, 0, 0);
+  if (t <= now) {
+    var tm = new Date(Date.UTC(p.year, p.month - 1, p.day + 1));
+    t = wallToInstant(tz, tm.getUTCFullYear(), tm.getUTCMonth() + 1, tm.getUTCDate(), 0, 0);
   }
+  return new Date(t);
+}
   function formatTime(date, tz) {
     var out = { minute: "00" };
     new Intl.DateTimeFormat("en-US", {
@@ -326,10 +333,10 @@
   function updateResets() {
     var tz = userTz();
     document.querySelectorAll("[data-reset]").forEach(function (el) {
-      var r = RESETS[el.dataset.reset];
-      if (!r) { el.hidden = true; return; }
+      var zone = ZONES[el.dataset.reset];
+      if (!zone) { el.hidden = true; return; }
       el.hidden = false;
-      el.textContent = "Resets at " + formatTime(nextReset(r), tz);
+      el.textContent = "Resets at " + formatTime(nextReset(zone), tz);
     });
   }
 
@@ -356,6 +363,37 @@
     updateResets();
   });
   updateResets();
+
+  // Fade a tile after clicking it, until midnight in its site's time zone
+  function todayIn(tz) {
+    return new Intl.DateTimeFormat("en-CA", { timeZone: tz }).format(new Date());
+  }
+  function zoneFor(section) {
+    var h = section.querySelector("h2");
+    return section.dataset.tz || ZONES[h ? h.textContent.trim().toLowerCase() : ""] || null;
+  }
+  function updateDone() {
+    document.querySelectorAll("#dailies-view section").forEach(function (sec) {
+      var tz = zoneFor(sec);
+      if (!tz) return;
+      var today = todayIn(tz);
+      sec.querySelectorAll(".dailies a").forEach(function (a) {
+        var skip = NO_FADE.indexOf(a.href) > -1;
+        a.classList.toggle("done", !skip && read("done:" + a.href) === today);
+      });
+    });
+  }
+  function markDone(e) {
+    var a = e.target.closest(".dailies a");
+    var sec = a && a.closest("section");
+    var tz = sec && zoneFor(sec);
+    if (tz && NO_FADE.indexOf(a.href) === -1) write("done:" + a.href, todayIn(tz));
+  }
+  document.getElementById("dailies-view").addEventListener("click", markDone);
+  document.getElementById("dailies-view").addEventListener("auxclick", markDone);
+  document.addEventListener("visibilitychange", updateDone);
+  window.addEventListener("pageshow", updateDone);
+  updateDone();
 
   // Gear: switch between dailies and settings
   var gear = document.getElementById("gear");
