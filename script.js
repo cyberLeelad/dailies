@@ -349,19 +349,19 @@
     return guess - off;
   }
   function nextReset(tz) {
-  var now = Date.now();
-  var p = zoneParts(tz, new Date(now));
-  var t = wallToInstant(tz, p.year, p.month, p.day, 0, 0);
-  if (t <= now) {
-    var tm = new Date(Date.UTC(p.year, p.month - 1, p.day + 1));
-    t = wallToInstant(tz, tm.getUTCFullYear(), tm.getUTCMonth() + 1, tm.getUTCDate(), 0, 0);
+    var now = Date.now();
+    var p = zoneParts(tz, new Date(now));
+    var t = wallToInstant(tz, p.year, p.month, p.day, 0, 0);
+    if (t <= now) {
+      var tm = new Date(Date.UTC(p.year, p.month - 1, p.day + 1));
+      t = wallToInstant(tz, tm.getUTCFullYear(), tm.getUTCMonth() + 1, tm.getUTCDate(), 0, 0);
+    }
+    return new Date(t);
   }
-  return new Date(t);
-}
   function formatTime(date, tz) {
     var out = { minute: "00" };
     new Intl.DateTimeFormat("en-US", {
-      timeZone: tz, hour: "numeric", minute: "2-digit", timeZoneName: "short"
+      timeZone: tz, hour: "numeric", minute: "2-digit"
     }).formatToParts(date).forEach(function (x) { out[x.type] = x.value; });
     var time = out.hour + (out.minute !== "00" ? ":" + out.minute : "");
     return time + (out.dayPeriod || "").toLowerCase();
