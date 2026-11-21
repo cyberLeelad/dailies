@@ -214,4 +214,20 @@
     margin: 0.5rem 0 0;
     font-size: 0.85rem;
     color: var(--muted);
+  }  
+  .reset-note {
+  font-size: 0.75rem;
+  font-weight: normal;
+  color: var(--muted);
+  margin-left: 0.5rem;
+  }
+  .settings select {
+    flex: 1 1 8rem;
+    min-width: 0;
+    font: inherit;
+    padding: 0.35rem 0.5rem;
+    background: var(--card);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 4px;
   }

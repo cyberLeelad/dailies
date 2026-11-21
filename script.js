@@ -264,6 +264,99 @@
     setTimeout(function () { location.reload(); }, 800);
   });
 
+  // Reset times: each site's reset, shown in the visitor's time zone
+  var TZ_KEY = "tz-override";
+  var RESETS = {
+    // hour/minute are 24h wall-clock time in tz. Fix these per site.
+    succubuns: { hour: 0, minute: 0, tz: "America/New_York" },
+    baobears:  { hour: 0, minute: 0, tz: "UTC" },
+    cupidcats: { hour: 0, minute: 0, tz: "America/Chicago" },
+    mothcats:  { hour: 0, minute: 0, tz: "America/Chicago" }
+  };
+
+  function validTz(tz) {
+    try { new Intl.DateTimeFormat("en-US", { timeZone: tz }); return true; }
+    catch (e) { return false; }
+  }
+  function deviceTz() {
+    try { return Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC"; }
+    catch (e) { return "UTC"; }
+  }
+  function userTz() {
+    var saved = read(TZ_KEY).trim();
+    return saved && validTz(saved) ? saved : deviceTz();
+  }
+  function zoneParts(tz, date) {
+    var p = {};
+    new Intl.DateTimeFormat("en-US", {
+      timeZone: tz, hourCycle: "h23",
+      year: "numeric", month: "numeric", day: "numeric",
+      hour: "numeric", minute: "numeric", second: "numeric"
+    }).formatToParts(date).forEach(function (x) { p[x.type] = +x.value; });
+    return p;
+  }
+  function offsetMs(tz, date) {
+    var p = zoneParts(tz, date);
+    var asUtc = Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute, p.second);
+    return asUtc - Math.floor(date.getTime() / 1000) * 1000;
+  }
+  function wallToInstant(tz, y, m, d, h, mi) {
+    var guess = Date.UTC(y, m - 1, d, h, mi);
+    var off = offsetMs(tz, new Date(guess - offsetMs(tz, new Date(guess))));
+    return guess - off;
+  }
+  function nextReset(r) {
+    var now = Date.now();
+    var p = zoneParts(r.tz, new Date(now));
+    var t = wallToInstant(r.tz, p.year, p.month, p.day, r.hour, r.minute);
+    if (t <= now) {
+      var tm = new Date(Date.UTC(p.year, p.month - 1, p.day + 1));
+      t = wallToInstant(r.tz, tm.getUTCFullYear(), tm.getUTCMonth() + 1, tm.getUTCDate(), r.hour, r.minute);
+    }
+    return new Date(t);
+  }
+  function formatTime(date, tz) {
+    var out = { minute: "00" };
+    new Intl.DateTimeFormat("en-US", {
+      timeZone: tz, hour: "numeric", minute: "2-digit", timeZoneName: "short"
+    }).formatToParts(date).forEach(function (x) { out[x.type] = x.value; });
+    var time = out.hour + (out.minute !== "00" ? ":" + out.minute : "");
+    return time + (out.dayPeriod || "").toLowerCase() + " " + (out.timeZoneName || "");
+  }
+  function updateResets() {
+    var tz = userTz();
+    document.querySelectorAll("[data-reset]").forEach(function (el) {
+      var r = RESETS[el.dataset.reset];
+      if (!r) { el.hidden = true; return; }
+      el.hidden = false;
+      el.textContent = "Resets at " + formatTime(nextReset(r), tz);
+    });
+  }
+
+  var tzSelect = document.getElementById("tz-select");
+  var zones = [];
+  try { zones = Intl.supportedValuesOf("timeZone"); } catch (e) {}
+  if (!zones.length) {
+    zones = ["America/New_York", "America/Chicago", "America/Denver", "America/Los_Angeles",
+             "Europe/London", "Europe/Paris", "Asia/Tokyo", "Australia/Sydney", "UTC"];
+  }
+  var defOpt = document.createElement("option");
+  defOpt.value = "";
+  defOpt.textContent = "Device default (" + deviceTz() + ")";
+  tzSelect.appendChild(defOpt);
+  zones.forEach(function (z) {
+    var o = document.createElement("option");
+    o.value = z;
+    o.textContent = z.replace(/_/g, " ");
+    tzSelect.appendChild(o);
+  });
+  tzSelect.value = read(TZ_KEY);
+  tzSelect.addEventListener("change", function () {
+    write(TZ_KEY, tzSelect.value);
+    updateResets();
+  });
+  updateResets();
+
   // Gear: switch between dailies and settings
   var gear = document.getElementById("gear");
   var dailiesView = document.getElementById("dailies-view");
