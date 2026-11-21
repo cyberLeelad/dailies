@@ -185,6 +185,25 @@
     });
   });
   updateImages();
+  
+  // Weekday (0 = Sunday ... 6 = Saturday) in Central time, which CupidCats uses
+  function centralDay() {
+    var name = new Intl.DateTimeFormat("en-US", { weekday: "short", timeZone: "America/Chicago" }).format(new Date());
+    return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(name);
+  }
+
+  // Day-of-week notes: appends "(note)" to a tile's label on matching days
+  document.querySelectorAll("a[data-day-notes]").forEach(function (a) {
+    var notes;
+    try { notes = JSON.parse(a.dataset.dayNotes); } catch (e) { return; }
+    var note = notes[centralDay()];
+    var label = a.querySelector(".label");
+    if (!note || !label) return;
+    var text = label.textContent + " (" + note + ")";
+    label.textContent = text;
+    a.title = text;
+  });
+
 
   // Show instructions toggle (off by default)
   var notesToggle = document.getElementById("show-notes");
