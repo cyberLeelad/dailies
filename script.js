@@ -403,45 +403,48 @@
     var name = h && h.firstChild ? h.firstChild.textContent : "";
     return section.dataset.tz || ZONES[name.trim().toLowerCase()] || null;
   }
+  var HOST_ZONES = {
+    "succubuns.com": ZONES.succubuns,
+    "baobears.com": ZONES.baobears,
+    "cupidcats.online": ZONES.cupidcats,
+    "mothcats.com": ZONES.mothcats
+  };
+  function tileZone(a) {
+    var host = a.hostname.replace(/^www\./, "");
+    return HOST_ZONES[host] || zoneFor(a.closest("section"));
+  }
   function updateDone() {
-    document.querySelectorAll("#dailies-view section").forEach(function (sec) {
-      var tz = zoneFor(sec);
+    document.querySelectorAll("#dailies-view .dailies a").forEach(function (a) {
+      var tz = tileZone(a);
       if (!tz) return;
-      var today = todayIn(tz);
-      sec.querySelectorAll(".dailies a").forEach(function (a) {
-        var done = read("done:" + a.href) === today;
-        a.classList.toggle("done", done);
-        var b = a.parentNode.querySelector(".check");
-        if (b) b.setAttribute("aria-pressed", String(done));
-      });
+      var done = read("done:" + a.href) === todayIn(tz);
+      a.classList.toggle("done", done);
+      var b = a.parentNode.querySelector(".check");
+      if (b) b.setAttribute("aria-pressed", String(done));
     });
   }
   function markDone(e) {
     var a = e.target.closest(".dailies a");
-    var sec = a && a.closest("section");
-    var tz = sec && zoneFor(sec);
+    var tz = a && tileZone(a);
     if (tz && !isManual(a)) write("done:" + a.href, todayIn(tz));
   }
   function addChecks() {
-    document.querySelectorAll("#dailies-view section").forEach(function (sec) {
-      if (!zoneFor(sec)) return;
-      sec.querySelectorAll(".dailies li").forEach(function (li) {
-        var a = li.querySelector("a");
-        if (!a || li.querySelector(".check") || !isManual(a)) return;
-        var b = document.createElement("button");
-        b.type = "button";
-        b.className = "check";
-        b.setAttribute("aria-label", "Mark " + (a.title || "tile") + " done");
-        b.textContent = "\u2713";
-        li.appendChild(b);
-      });
+    document.querySelectorAll("#dailies-view .dailies li").forEach(function (li) {
+      var a = li.querySelector("a");
+      if (!a || li.querySelector(".check") || !isManual(a) || !tileZone(a)) return;
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "check";
+      b.setAttribute("aria-label", "Mark " + (a.title || "tile") + " done");
+      b.textContent = "\u2713";
+      li.appendChild(b);
     });
   }
   document.getElementById("dailies-view").addEventListener("click", function (e) {
     var b = e.target.closest(".check");
     if (!b) return;
     var a = b.parentNode.querySelector("a");
-    var tz = zoneFor(b.closest("section"));
+    var tz = tileZone(a);
     var key = "done:" + a.href;
     var today = todayIn(tz);
     write(key, read(key) === today ? "" : today);
