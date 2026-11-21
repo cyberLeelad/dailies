@@ -232,3 +232,13 @@
     border: 1px solid var(--line);
     border-radius: 4px;
   }
+  .dailies .emoji {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--icon);
+    height: var(--icon);
+    font-size: calc(var(--icon) * 0.7);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
