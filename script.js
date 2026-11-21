@@ -7,6 +7,12 @@
     cupidcats: "America/Chicago",
     mothcats:  "America/Chicago"
   };
+  var HOST_ZONES = {
+    "succubuns.com": ZONES.succubuns,
+    "baobears.com": ZONES.baobears,
+    "cupidcats.online": ZONES.cupidcats,
+    "mothcats.com": ZONES.mothcats
+  };
   function isManual(a) {
     return a.hasAttribute("data-manual");
   }
@@ -403,12 +409,6 @@
     var name = h && h.firstChild ? h.firstChild.textContent : "";
     return section.dataset.tz || ZONES[name.trim().toLowerCase()] || null;
   }
-  var HOST_ZONES = {
-    "succubuns.com": ZONES.succubuns,
-    "baobears.com": ZONES.baobears,
-    "cupidcats.online": ZONES.cupidcats,
-    "mothcats.com": ZONES.mothcats
-  };
   function tileZone(a) {
     var host = a.hostname.replace(/^www\./, "");
     return HOST_ZONES[host] || zoneFor(a.closest("section"));
